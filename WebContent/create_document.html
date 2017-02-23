@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Form to create a new document</title>
+ </head>
+<body>
+  <h1>COMP 4601 Searchable Document Archive</h1>
+  <form action="../COMP4601SDA/rest/sda" method="POST">
+  <label for="id">ID</label>
+  <input name="id" />
+  <br/>
+  <label for="name">Name</label>
+  <input name="name" />
+  <br/>
+  <label for="Score">Score</label>
+  <input name="score" />
+  <br/>
+  Text:
+  <TEXTAREA NAME="text" COLS=40 ROWS=6></TEXTAREA>
+  <br/>
+  Links (separated by commas):
+  <TEXTAREA NAME="links" COLS=40 ROWS=6></TEXTAREA>
+  <br/>
+  Tags (separated by commas):
+  <TEXTAREA NAME="tags" COLS=40 ROWS=6></TEXTAREA>
+  <br/>
+  <input type="submit" value="Submit" />
+  </form>
+</body>
+</html> 
