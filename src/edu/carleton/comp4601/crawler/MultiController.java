@@ -1,6 +1,7 @@
 package edu.carleton.comp4601.crawler;
 import java.util.ArrayList;
 
+import edu.carleton.comp4601.resources.PageStorage;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
@@ -17,8 +18,12 @@ public class MultiController {
 			CrawlController curr = MultiController.buildController(storageFolder + "crawler" + i, "http://www.cnn.com/");
 			controllers.add(curr);
 	        // 1 thread per each seed
+			
 	        curr.startNonBlocking(MultiCrawler.class, 1);
+	        
+	        
 		}
+		System.out.println(PageStorage.getInstance().getGraph().toString());
 	}
 
     public static CrawlController buildController(String storageFolder, String seed) throws Exception {

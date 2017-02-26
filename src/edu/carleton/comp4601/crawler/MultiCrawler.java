@@ -9,6 +9,11 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.Multigraph;
+
+import edu.carleton.comp4601.resources.PageStorage;
+import edu.carleton.comp4601.resources.Vertex;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -22,10 +27,14 @@ import edu.uci.ics.crawler4j.url.WebURL;
 	        "|wav|avi|mov|mpeg|ram|m4v|pdf" + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
 	    private String[] myCrawlDomains;
+	    
+	    public Multigraph<Vertex, DefaultEdge> graph;
 
 	    @Override
 	    public void onStart() {
 	        myCrawlDomains = (String[]) myController.getCustomData();
+//	        graph = new Multigraph<Vertex, DefaultEdge>(DefaultEdge.class);
+	        graph = PageStorage.getInstance().getGraph();
 	    }
 
 	    @Override
@@ -49,6 +58,19 @@ import edu.uci.ics.crawler4j.url.WebURL;
 	        int docid = page.getWebURL().getDocid();
 	        String url = page.getWebURL().getURL();
 	        int parentDocid = page.getWebURL().getParentDocid();
+	        String parentUrl = page.getWebURL().getParentUrl();
+	        
+	        
+	        Vertex curVertex = getVertex(url);
+	        if (curVertex == null) {
+	        	curVertex = new Vertex(url);
+	        	graph.addVertex(curVertex);
+	        }
+	        
+	        Vertex parentVertex = getVertex(parentUrl);
+	        if (parentVertex != null) {
+	        	graph.addEdge(parentVertex, curVertex);
+	        }
 
 	        System.out.println("Docid: " + docid);
 	        System.out.println("URL: " + url);
@@ -81,5 +103,16 @@ import edu.uci.ics.crawler4j.url.WebURL;
             }
 
 	        System.out.println("=============");
+	    }
+	    
+	    public Vertex getVertex(String url) {
+	    	if (url == null) return null;
+	    	Set<Vertex> vertices = graph.vertexSet();
+	    	for (Vertex v : vertices) { 
+	    		if (v.getURL().equals(url)) {
+	    			return v;
+	    		}
+	    	}
+	    	return null;
 	    }
 }
