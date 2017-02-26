@@ -23,8 +23,7 @@ import edu.uci.ics.crawler4j.url.WebURL;
 	public class MultiCrawler extends WebCrawler {
 
 	    private static final Pattern FILTERS = Pattern.compile(
-	        ".*(\\.(css|js|bmp|gif|jpe?g" + "|png|tiff?|mid|mp2|mp3|mp4" +
-	        "|wav|avi|mov|mpeg|ram|m4v|pdf" + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
+	        ".*(\\.(jpe?g|tiff|gif|png" + "pdf|doc|docx|xls|xlsx|ppt|pptx))$");
 
 	    private String[] myCrawlDomains;
 	    
