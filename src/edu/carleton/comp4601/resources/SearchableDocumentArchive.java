@@ -20,9 +20,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import edu.carleton.comp4601.crawler.MultiController;
+import edu.carleton.comp4601.crawler.MultiCrawler;
 import edu.carleton.comp4601.dao.Document;
 import edu.carleton.comp4601.dao.DocumentCollection;
 import edu.carleton.comp4601.dao.SDADocumentAccess;
+import edu.uci.ics.crawler4j.crawler.CrawlController;
 
 @Path("/")
 public class SearchableDocumentArchive {
@@ -34,13 +36,24 @@ public class SearchableDocumentArchive {
 	Request request;
 	
 	MultiController webCrawler;
+	
+	String storageFolder = System.getProperty("user.dir") + "/pagestore/";
+	ArrayList<CrawlController> controllers = new ArrayList<CrawlController>();
+	
+	public void startCrawlers(String[] args) throws Exception{
+		for(int i = 0; i<3; i++){
+			CrawlController curr = MultiController.buildController(storageFolder + "crawler" + i, "http://www.cnn.com/");
+			controllers.add(curr);
+	        // 1 thread per each seed
+	        curr.startNonBlocking(MultiCrawler.class, 1);
+		}
+	}
 
 	public SearchableDocumentArchive() {
 		SDADocumentAccess.getInstance();
 		
         String rootFolder = "/Users/thomasmurphy/Documents/Coding/Eclipse Projects/COMP4601-SDA2/pagestore/";
         String storageFolder = rootFolder + "test";
-
 	}
 
 	@GET
