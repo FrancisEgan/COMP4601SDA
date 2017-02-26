@@ -11,17 +11,15 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
 public class MultiController {
 
-	
 	static String storageFolder = System.getProperty("user.dir") + "/pagestore/";
 	static ArrayList<CrawlController> controllers = new ArrayList<CrawlController>();
-	
 
     public static CrawlController buildController(String storageFolder, String seed) throws Exception {
 
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(storageFolder);
         config.setPolitenessDelay(1000);
-        config.setMaxPagesToFetch(50);
+        config.setMaxPagesToFetch(5);
 
         PageFetcher pageFetcher = new PageFetcher(config);
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();

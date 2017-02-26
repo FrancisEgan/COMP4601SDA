@@ -121,7 +121,7 @@ public class SDADocumentAccess {
 	}
 	
 	private Document createMongoDoc(edu.carleton.comp4601.dao.Document addition){
-		Document dbEntry = new  Document();
+		Document dbEntry = new Document();
 		dbEntry.append("id", addition.getId());
 		
 		if(addition.getName() != null)	dbEntry.append("name", addition.getName());
