@@ -19,12 +19,10 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import edu.carleton.comp4601.crawler.Controller;
+import edu.carleton.comp4601.crawler.MultiController;
 import edu.carleton.comp4601.dao.Document;
 import edu.carleton.comp4601.dao.DocumentCollection;
-import edu.carleton.comp4601.dao.Documents;
 import edu.carleton.comp4601.dao.SDADocumentAccess;
-import edu.carleton.comp4601.utility.ServiceRegistrar;
 
 @Path("/")
 public class SearchableDocumentArchive {
@@ -35,20 +33,14 @@ public class SearchableDocumentArchive {
 	@Context
 	Request request;
 	
-	Controller webCrawler;
+	MultiController webCrawler;
 
 	public SearchableDocumentArchive() {
 		SDADocumentAccess.getInstance();
-		ServiceRegistrar registrar = new ServiceRegistrar();
-		System.out.println("\n\nStarting web crawler\n\n");
 		
-		webCrawler = new Controller();
-		try {
-			webCrawler.test();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        String rootFolder = "/Users/thomasmurphy/Documents/Coding/Eclipse Projects/COMP4601-SDA2/pagestore/";
+        String storageFolder = rootFolder + "test";
+
 	}
 
 	@GET

@@ -66,6 +66,7 @@ public class SDADocumentAccess {
 		}
 	}
 	
+	// very impt
 	public ConcurrentHashMap<Integer, edu.carleton.comp4601.dao.Document> getSDAMap(){ 
 		return Documents.getInstance().getDocs(); 
 	}
