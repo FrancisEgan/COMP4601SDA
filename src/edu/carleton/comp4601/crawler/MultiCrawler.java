@@ -2,6 +2,7 @@ package edu.carleton.comp4601.crawler;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.Set;
@@ -11,10 +12,13 @@ import java.util.regex.Pattern;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.Multigraph;
 
+import edu.carleton.comp4601.dao.MongoConnector;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
+
+import org.bson.Document;
 
 public class MultiCrawler extends WebCrawler {
 
@@ -22,6 +26,8 @@ public class MultiCrawler extends WebCrawler {
 	long crawlEndTime;
 
 	public Multigraph<Vertex, DefaultEdge> graph;
+	
+
 
 	private static final Pattern FILTERS = Pattern.compile(
 	        ".*(\\.(jpe?g|tiff|gif|png" + "pdf|doc|docx|xls|xlsx|ppt|pptx))$");
@@ -86,7 +92,22 @@ public class MultiCrawler extends WebCrawler {
 			String text = htmlParseData.getText();
 			String html = htmlParseData.getHtml();
 			Set<WebURL> links = htmlParseData.getOutgoingUrls();
+			
+		
+			String content = "null";
+			try {
+				content = new String(page.getContentData(), page.getContentCharset());
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 
+			Document doc = new Document("docId", docid);
+			doc.append("html", html);
+			doc.append("content", content);
+			MongoConnector.getInstance().getCollection("pages").insertOne(doc);
+			
+			
+			
 			System.out.println("Text length: " + text.length());
 			System.out.println("Html length: " + html.length());
 			System.out.println("Number of outgoing links: " + links.size());
