@@ -25,6 +25,7 @@ import edu.carleton.comp4601.crawler.PageStorage;
 import edu.carleton.comp4601.crawler.Vertex;
 import edu.carleton.comp4601.dao.Document;
 import edu.carleton.comp4601.dao.DocumentCollection;
+import edu.carleton.comp4601.dao.MongoConnector;
 import edu.carleton.comp4601.dao.SDADocumentAccess;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 
@@ -65,7 +66,8 @@ public class SearchableDocumentArchive {
 	public void addGraphToMongo(){	
 		org.bson.Document dbEntry = new org.bson.Document();
 		dbEntry.append("id", "graph");
-		dbEntry.append("value", PageStorage.getInstance().getGraph());
+		dbEntry.append("value", PageStorage.getInstance().getGraph().toString());
+		MongoConnector.getInstance().getCollection("pages").insertOne(dbEntry);
 	}
 	
 

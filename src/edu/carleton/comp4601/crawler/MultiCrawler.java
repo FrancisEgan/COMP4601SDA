@@ -38,6 +38,8 @@ public class MultiCrawler extends WebCrawler {
 	public void onStart() {
 		myCrawlDomains = (String[]) myController.getCustomData();
 		graph = PageStorage.getInstance().getGraph();
+		MongoConnector.getInstance().getCollection("pages").drop();
+
 	}
 
 	@Override
@@ -87,7 +89,7 @@ public class MultiCrawler extends WebCrawler {
 			graph.addEdge(parentVertex, curVertex);
 		}
 
-		if (page.getParseData() instanceof HtmlParseData) {
+		if (page.getParseData() != null) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
 			String text = htmlParseData.getText();
 			String html = htmlParseData.getHtml();
@@ -118,15 +120,15 @@ public class MultiCrawler extends WebCrawler {
 		String hashedName = UUID.randomUUID() + extension;
 
 		// store image
-		String storageFolder = this.getMyController().getConfig().getCrawlStorageFolder();
-		String filename = storageFolder + "/" + hashedName;
-		try {
-			Files.write(new File(filename).toPath(), page.getContentData(), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
-			System.out.println("Stored: " + url);
-		} catch (IOException iox) {
-			iox.printStackTrace();
-			System.err.println("Failed to write file: " + filename);
-		}
+//		String storageFolder = this.getMyController().getConfig().getCrawlStorageFolder();
+//		String filename = storageFolder + "/" + hashedName;
+//		try {
+//			Files.write(new File(filename).toPath(), page.getContentData(), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+//			System.out.println("Stored: " + url);
+//		} catch (IOException iox) {
+//			iox.printStackTrace();
+//			System.err.println("Failed to write file: " + filename);
+//		}
 
 		// adaptive crawling
 		crawlEndTime = System.currentTimeMillis();

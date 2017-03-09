@@ -17,6 +17,7 @@ public class MultiController {
     public static CrawlController buildController(String storageFolder, String seed) throws Exception {
 
         CrawlConfig config = new CrawlConfig();
+        config.setIncludeBinaryContentInCrawling(true);
         config.setCrawlStorageFolder(storageFolder);
         config.setPolitenessDelay(1000);
         config.setMaxPagesToFetch(5);

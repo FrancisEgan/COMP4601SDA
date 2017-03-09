@@ -17,7 +17,7 @@ public class MongoConnector {
 	private static MongoConnector instance;
 	
 	public MongoClient mongoClient;
-	public MongoDatabase database = mongoClient.getDatabase("sda");
+	public MongoDatabase database;
 	
 	public static MongoConnector getInstance() {
 		if (instance == null)
@@ -26,7 +26,7 @@ public class MongoConnector {
 	}
 	
 	public MongoConnector() {
-		mongoClient = new MongoClient();
+		mongoClient = new MongoClient("localhost");
 		database = mongoClient.getDatabase("sda");
 	}
 	
